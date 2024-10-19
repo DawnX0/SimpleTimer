@@ -47,6 +47,8 @@ class SimpleTimer {
 		if (!RunService.IsServer()) error("Timers have to be created on the server");
 
 		const { Name, Duration, Tick, AutoDestroy } = timerData;
+		if (!Name) error("You forgot to include a name");
+		if (!Duration) error("You forgot to include a duration");
 
 		const timer: TimerInstance = {
 			// Basic Information
