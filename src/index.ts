@@ -43,16 +43,18 @@ class SimpleTimer {
 	}
 
 	// Create a new timer
-	CreateTimer(name: string, duration: number, tick?: number, autoDestroy?: boolean) {
+	CreateTimer(timerData: { Name: string; Duration: number; Tick?: number; AutoDestroy?: boolean }) {
 		if (!RunService.IsServer()) error("Timers have to be created on the server");
+
+		const { Name, Duration, Tick, AutoDestroy } = timerData;
 
 		const timer: TimerInstance = {
 			// Basic Information
-			Name: name,
-			Duration: duration,
-			Tick: tick || 1,
-			RemainingTime: duration,
-			AutoDestroy: autoDestroy || false,
+			Name: Name,
+			Duration: Duration,
+			Tick: Tick || 1,
+			RemainingTime: Duration,
+			AutoDestroy: AutoDestroy || true,
 			Status: TIMER_STATUSES.Stopped as TimerStatus,
 
 			// Event instances
@@ -75,7 +77,7 @@ class SimpleTimer {
 			Destroy: () => this.Destroy(timer),
 		};
 
-		Timers.set(name, timer);
+		Timers.set(Name, timer);
 		return timer;
 	}
 
